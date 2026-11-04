@@ -67,12 +67,22 @@ processed in memory and is not stored in application SQLite.
 ## Interactive local interface
 
 ```sh
-python web.py --state /your/project/turncart-demo.sqlite3 --port 8768
+turncart_demo_dir=$(mktemp -d)
+python3 web.py --state "$turncart_demo_dir/turncart-demo.sqlite3" --port 0
 ```
 
-Open the printed loopback URL. Choose fictional catalog quantities, enter a
-short English request, then run the real local learner. A checkout suggestion
-enables a separate cart confirmation. Creating a review saves a real
+Open the printed loopback URL. The default sample basket has one notebook and
+two pens for $14.95.
+
+1. Enter “I want to cancel my basket” and choose **Understand my request**.
+   **Create checkout review** stays disabled.
+2. Enter “I am ready to buy my basket” and analyze it. Confirm the exact
+   basket, then choose **Create checkout review**. The saved review shows
+   $14.95 and states that payment has not started.
+3. Change the pen quantity to three. The basket changes to $17.45 and
+   requires a fresh confirmation. The saved review still shows $14.95.
+
+Creating a review saves a
 LOCAL_REVIEW operation without a PayPal call. Editing the request or quantities
 invalidates previous confirmation. The current browser tab can recover the
 review after reload without storing the user's request text. Its operation ID
