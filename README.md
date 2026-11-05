@@ -36,7 +36,7 @@ cases, not independent accuracy measurements.
 
 The 16-example development set and 20 synthetic diagnostic requests have been
 used for feature design and regularization selection. They do **not** establish
-independent production accuracy. The current results are 12/16 and 15/20,
+independent production accuracy. The preceding revision scored 12/16 and 15/20,
 including abstentions as errors. These totals hide remaining weaknesses:
 some short checkout/cancellation and mixed edit requests still abstain, and a
 declined payment can be classified as abandon rather than clarify. The short
@@ -46,7 +46,7 @@ payment. Non-English and unfamiliar input can abstain. No new training rows or
 learned model vocabulary were added. Earlier revisions were evaluated on
 separately frozen synthetic sets of 60 and 30 examples. Feedback informed later
 gates, so both sets are now development regression data for this revision.
-After these corrections they contain no false checkout suggestions, with only
+In that preceding revision they contained no false checkout suggestions, with only
 23/60 and 11/30 requests receiving a non-clarify suggestion. Their earlier blind
 results do not measure this revision's independent accuracy. Broader data and
 separate unseen evaluation are still needed; submission readiness is not claimed.
