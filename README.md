@@ -27,6 +27,13 @@ may be needed. Historical-order questions cannot turn a checkout score into a
 new purchase suggestion. These gates change no learned weights or payment
 controls and do not constitute a complete natural-language parser.
 
+A checkout score also abstains on explicit cart amendments or subsets, past
+intent statements, and advice questions such as "should I buy". Change the
+items in the catalog interface, then give a fresh present-tense instruction.
+These lexical checks can defer benign mixed clauses; they do not parse or apply
+arbitrary shopping instructions. Four newly reproduced failures are regression
+cases, not independent accuracy measurements.
+
 The 16-example development set and 20 synthetic diagnostic requests have been
 used for feature design and regularization selection. They do **not** establish
 independent production accuracy. The current results are 12/16 and 15/20,
@@ -137,7 +144,7 @@ approval; no capture was performed. The local attempt persisted as
 and retry disabled. This is a live SDK order-creation observation, not proof of
 merchant ownership, server-side order verification or completed payment.
 
-The final offline checks were Python 63/63 and Node 11/11; the last mandatory
+The current Python checks pass 66/66. Earlier Node checks passed 11/11; the last mandatory
 changes also passed the focused Python 34/34 regression. Independent reviews
 exercised async cart binding, durable consumption, concurrent create guards,
 Host/Origin/CSRF rejection and the absence of browser capture calls. Synthetic

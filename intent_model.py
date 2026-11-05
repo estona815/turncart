@@ -207,6 +207,19 @@ class IntentModel:
             # because the model recognizes payment words. Only abstain: the
             # model has not established that a status lookup is intended.
             reason = "historical_order_query"
+        elif best == "checkout" and re.search(
+                r"\b(remove|replace|swap|change|edit|update|delete|adjust|add)\b|"
+                r"\b(only|except|excluding)\b|"
+                r"\b(yesterday|earlier|previously|formerly|ago)\b|"
+                r"\b(?:was|were|had)\b.{0,30}\b(?:ready|wanted|planning|going)\b|"
+                r"\bshould\s+(?:i|we)\b|"
+                r"\b(?:do|would)\s+you\s+(?:think|recommend|suggest)\b",
+                normalized):
+            # Natural-language cart edits and past/advisory statements do not
+            # establish a present instruction for the separately reviewed cart.
+            # This may defer benign clauses; it never chooses another intent,
+            # edits the cart, or grants payment authorization.
+            reason = "cart_change_or_noncurrent_request"
         elif any(k.startswith("neg:") and k not in self.vocabulary and
                  "w:" + k[4:] in self.vocabulary and
                  max(LABELS, key=lambda label: self.log_weights[label]["w:" + k[4:]])

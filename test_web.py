@@ -27,6 +27,17 @@ def data_for(app):
 
 
 class ReviewTests(unittest.TestCase):
+    def test_conflicting_requests_cannot_save_a_checkout_review(self):
+        data = data_for(self.app)
+        for text in ["I want to buy this cart, but first remove the notebook",
+                     "I was ready to buy my basket yesterday",
+                     "Do you think I should buy this basket?",
+                     "I want to buy only the pens, not the notebook"]:
+            data["intent"] = text
+            with self.subTest(text=text), self.assertRaisesRegex(CheckoutError, "checkout_suggestion_required"):
+                self.app.prepare(data)
+        self.assertEqual(self.app.store.db.execute("SELECT count(*) FROM operations").fetchone()[0], 0)
+
     def setUp(self):
         self.path = state_path()
         self.app = ReviewApplication(self.path)
